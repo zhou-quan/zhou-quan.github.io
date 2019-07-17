@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Sat, 13 Jul 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 17 Jul 2019 17:11:04 +0800</lastBuildDate>
     
 	<atom:link href="https://zhou-quan.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>使用 Google Cloud 搭建 BBR &#43; SS/SSR 服务器</title>
+      <link>https://zhou-quan.github.io/posts/google_ss/</link>
+      <pubDate>Wed, 17 Jul 2019 17:11:04 +0800</pubDate>
+      
+      <guid>https://zhou-quan.github.io/posts/google_ss/</guid>
+      <description>第三方科学上网服务价格昂贵或服务不稳定，故决定自行使用VPS搭建科学上网服务。 Google Cloud对新用户推出优惠活动(需绑定Visa或Master</description>
+    </item>
     
     <item>
       <title>Kevin Zhou</title>

@@ -6,8 +6,83 @@
 		<generator>Hugo -- gohugo.io</generator>
 		<language>en-us</language>
 		<copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-		<lastBuildDate>Mon, 24 Dec 2018 12:29:41 +0800</lastBuildDate>
+		<lastBuildDate>Wed, 17 Jul 2019 17:11:04 +0800</lastBuildDate>
 		<atom:link href="https://zhou-quan.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+		
+		<item>
+			<title>使用 Google Cloud 搭建 BBR &#43; SS/SSR 服务器</title>
+			<link>https://zhou-quan.github.io/posts/google_ss/</link>
+			<pubDate>Wed, 17 Jul 2019 17:11:04 +0800</pubDate>
+			
+			<guid>https://zhou-quan.github.io/posts/google_ss/</guid>
+			<description>第三方科学上网服务价格昂贵或服务不稳定，故决定自行使用VPS搭建科学上网服务。 Google Cloud对新用户推出优惠活动(需绑定Visa或Master</description>
+			<content type="html"><![CDATA[
+
+<p>第三方科学上网服务价格昂贵或服务不稳定，故决定自行使用VPS搭建科学上网服务。</p>
+
+<p>Google Cloud对新用户推出优惠活动(需绑定Visa或MasterCard信用卡)，赠送300刀，免费用一年。选择香港或台湾地区的服务器，测试下来速度还不错，可以流畅播放Youtube 4K视频，延迟也较低，在60ms左右。</p>
+
+<p>下面就来看一下具体的配置步骤。</p>
+
+<p><a href="https://console.cloud.google.com/freetrial/intro">Google Cloud试用地址</a></p>
+
+<h3 id="1-在-computer-engine-中创建-vm-实例">1. 在 Computer Engine 中创建 VM 实例</h3>
+
+<p><img src="02.png" alt="test" /></p>
+
+<h3 id="2-在-vpc-网络-外部-ip-地址中添加静态-ip-地址-并绑定到创建的-vm-实例上">2. 在 VPC 网络 - 外部 IP 地址中添加静态 IP 地址，并绑定到创建的 VM 实例上</h3>
+
+<h3 id="3-在-vpc-网络-防火墙规则中创建新的防火墙规则">3. 在 VPC 网络 - 防火墙规则中创建新的防火墙规则</h3>
+
+<h3 id="4-安装-bbr-内核">4. 安装 BBR 内核</h3>
+
+<p>SSH 登陆到创建的 VM 实例，sudo -i 切换到 root 用户。
+执行以下命令进行安装：</p>
+
+<pre><code>wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh
+
+chmod +x bbr.sh
+
+./bbr.sh
+</code></pre>
+
+<p>安装完成后重启 VPS ，SSH 登陆，执行以下指令验证是否成功安装最新内核并开启 TCP BBR 。</p>
+
+<pre><code>uname -r
+#查看内核版本，返回 4.9.0-9-amd64
+
+sysctl net.ipv4.tcp_available_congestion_control
+#返回 net.ipv4.tcp_available_congestion_control = bbr cubic reno
+
+sysctl net.ipv4.tcp_congestion_control
+#返回 net.ipv4.tcp_congestion_control = bbr
+
+sysctl net.core.default_qdisc
+#返回 net.core.default_qdisc = fq
+
+lsmod | grep bbr
+#返回值有 tcp_bbr 模块即说明bbr已启动。
+</code></pre>
+
+<h3 id="5-安装-ss-ssr">5. 安装 SS/SSR</h3>
+
+<p>使用秋水逸冰提供的一键脚本，脚本代码如下：</p>
+
+<pre><code>sudo -i
+
+wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
+
+chmod +x shadowsocks-all.sh
+
+./shadowsocks-all.sh 2&gt;&amp;1 | tee shadowsocks-all.log
+</code></pre>
+
+<p>选择安装 Shadowsocks-R
+按照提示输入端口、密码、加密方式等，完成配置。</p>
+
+<h3 id="6-油管速度测试">6. 油管速度测试</h3>
+]]></content>
+		</item>
 		
 		<item>
 			<title>The &#34;figure&#34; Shortcode</title>
