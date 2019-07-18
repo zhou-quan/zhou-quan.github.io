@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Wed, 17 Jul 2019 17:11:04 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 18 Jul 2019 11:10:54 +0800</lastBuildDate>
     
 	<atom:link href="https://zhou-quan.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>爬取豆瓣影视 Title </title>
+      <link>https://zhou-quan.github.io/posts/douban/</link>
+      <pubDate>Thu, 18 Jul 2019 11:10:54 +0800</pubDate>
+      
+      <guid>https://zhou-quan.github.io/posts/douban/</guid>
+      <description>最近在做NLP的项目，需要手工生成一些训练样本，于是动手写了一个爬取豆瓣影视数据的脚本，爬取豆瓣电影(华语、欧美、日本等)和电视剧（国产剧、</description>
+    </item>
     
     <item>
       <title>使用 Google Cloud 搭建 BBR &#43; SS/SSR 服务器</title>

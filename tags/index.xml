@@ -7,9 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Thu, 18 Jul 2019 11:10:54 +0800</lastBuildDate>
     
 	<atom:link href="https://zhou-quan.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>untagged</title>
+      <link>https://zhou-quan.github.io/tags/untagged/</link>
+      <pubDate>Thu, 18 Jul 2019 11:10:54 +0800</pubDate>
+      
+      <guid>https://zhou-quan.github.io/tags/untagged/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

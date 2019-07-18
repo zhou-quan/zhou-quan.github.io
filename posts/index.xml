@@ -6,8 +6,66 @@
 		<generator>Hugo -- gohugo.io</generator>
 		<language>en-us</language>
 		<copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-		<lastBuildDate>Wed, 17 Jul 2019 17:11:04 +0800</lastBuildDate>
+		<lastBuildDate>Thu, 18 Jul 2019 11:10:54 +0800</lastBuildDate>
 		<atom:link href="https://zhou-quan.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+		
+		<item>
+			<title>爬取豆瓣影视 Title </title>
+			<link>https://zhou-quan.github.io/posts/douban/</link>
+			<pubDate>Thu, 18 Jul 2019 11:10:54 +0800</pubDate>
+			
+			<guid>https://zhou-quan.github.io/posts/douban/</guid>
+			<description>最近在做NLP的项目，需要手工生成一些训练样本，于是动手写了一个爬取豆瓣影视数据的脚本，爬取豆瓣电影(华语、欧美、日本等)和电视剧（国产剧、</description>
+			<content type="html"><![CDATA[<p>最近在做NLP的项目，需要手工生成一些训练样本，于是动手写了一个爬取豆瓣影视数据的脚本，爬取豆瓣电影(华语、欧美、日本等)和电视剧（国产剧、美剧、动漫等）名称共计125000条，存储在txt文本中以供后续使用。</p>
+<div class="highlight"><pre class="chroma"><code class="language-Python" data-lang="Python"><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="k">def</span> <span class="nf">get_pages</span><span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">page_num</span><span class="p">):</span>
+    <span class="n">url_base</span> <span class="o">=</span> <span class="s1">&#39;https://movie.douban.com/j/search_subjects?type=</span><span class="si">%s</span><span class="s1">&amp;tag=</span><span class="si">%s</span><span class="s1">&amp;sort=recommend&amp;page_limit=20&amp;page_start=&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">url_base</span> <span class="o">%</span> <span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">page_num</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+            <span class="n">jresult</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+            <span class="n">pages</span> <span class="o">=</span> <span class="n">jresult</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;subjects&#39;</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;爬取&#39;</span> <span class="o">+</span> <span class="n">urlbase</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">page_num</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;失败！&#39;</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pages</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;获取第</span><span class="si">%s</span><span class="s1">页电影列表失败&#39;</span> <span class="o">%</span> <span class="n">page_num</span><span class="p">)</span>
+
+        
+<span class="k">def</span> <span class="nf">save_to_file</span><span class="p">(</span><span class="n">content_list</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span> 
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span><span class="s2">&#34;w&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">content_list</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span> <span class="o">+</span> <span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;write over!&#34;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># 豆瓣每项电视剧只有前500部</span>
+    <span class="n">page_nums</span> <span class="o">=</span> <span class="mi">25</span>  
+            
+    <span class="n">url_base</span> <span class="o">=</span> <span class="s1">&#39;https://movie.douban.com/j/search_subjects?type=</span><span class="si">%s</span><span class="s1">&amp;tag=</span><span class="si">%s</span><span class="s1">&amp;sort=recommend&amp;page_limit=20&amp;page_start=&#39;</span>
+    
+    <span class="n">tv_url_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;美剧&#39;</span><span class="p">,</span> <span class="s1">&#39;英剧&#39;</span><span class="p">,</span> <span class="s1">&#39;韩剧&#39;</span><span class="p">,</span> <span class="s1">&#39;日剧&#39;</span><span class="p">,</span> <span class="s1">&#39;国产剧&#39;</span><span class="p">,</span> <span class="s1">&#39;港剧&#39;</span><span class="p">,</span> <span class="s1">&#39;日本动画&#39;</span><span class="p">,</span> <span class="s1">&#39;综艺&#39;</span><span class="p">,</span> <span class="s1">&#39;纪录片&#39;</span><span class="p">]</span>
+    <span class="n">movie_url_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;热门&#39;</span><span class="p">,</span><span class="s1">&#39;最新&#39;</span><span class="p">,</span> <span class="s1">&#39;经典&#39;</span><span class="p">,</span> <span class="s1">&#39;豆瓣高分&#39;</span><span class="p">,</span> <span class="s1">&#39;冷门佳片&#39;</span><span class="p">,</span> <span class="s1">&#39;华语&#39;</span><span class="p">,</span> <span class="s1">&#39;欧美&#39;</span><span class="p">,</span> <span class="s1">&#39;韩国&#39;</span><span class="p">,</span> <span class="s1">&#39;日本&#39;</span><span class="p">,</span> <span class="s1">&#39;动作&#39;</span><span class="p">,</span> <span class="s1">&#39;喜剧&#39;</span><span class="p">,</span> <span class="s1">&#39;爱情&#39;</span><span class="p">,</span> <span class="s1">&#39;科幻&#39;</span><span class="p">,</span> <span class="s1">&#39;悬疑&#39;</span><span class="p">,</span> <span class="s1">&#39;恐怖&#39;</span><span class="p">,</span> <span class="s1">&#39;治愈&#39;</span><span class="p">]</span>
+    
+    <span class="k">for</span> <span class="n">cate</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;tv&#39;</span><span class="p">,</span> <span class="s1">&#39;movie&#39;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">_url_list&#39;</span><span class="o">%</span><span class="n">cate</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;*&#39;</span> <span class="o">*</span> <span class="mi">10</span><span class="p">,</span> <span class="n">cate</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">page_nums</span><span class="p">):</span>
+                <span class="n">re_list</span> <span class="o">=</span> <span class="n">get_pages</span><span class="p">(</span><span class="n">cate</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">20</span><span class="p">)</span>
+                <span class="n">punc</span> <span class="o">=</span> <span class="s2">&#34;！？｡＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏.():：。· &#34;</span>
+                <span class="n">punctuation</span> <span class="o">=</span> <span class="n">punc</span>
+                <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">re_list</span><span class="p">:</span>
+                    <span class="n">l</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;[</span><span class="si">%s</span><span class="s2">]+&#34;</span> <span class="o">%</span> <span class="n">punctuation</span><span class="p">,</span> <span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="n">l</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">))</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">])</span>
+                <span class="k">print</span><span class="p">((</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mf">100.0</span><span class="o">/</span><span class="n">pages</span><span class="p">,</span><span class="s2">&#34;%&#34;</span><span class="p">)</span>
+            <span class="n">save_to_file</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">_titles/</span><span class="si">%s</span><span class="s1">_</span><span class="si">%s</span><span class="s1">.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">cate</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">page_nums</span> <span class="o">*</span> <span class="mi">20</span><span class="p">)))</span></code></pre></div>]]></content>
+		</item>
 		
 		<item>
 			<title>使用 Google Cloud 搭建 BBR &#43; SS/SSR 服务器</title>
