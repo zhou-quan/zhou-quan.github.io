@@ -1,143 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-	<channel>
-		<title>Posts on An Artificial Idiot</title>
-		<link>https://zhou-quan.github.io/posts/</link>
-		<description>Recent content in Posts on An Artificial Idiot</description>
-		<generator>Hugo -- gohugo.io</generator>
-		<language>en-us</language>
-		<copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-		<lastBuildDate>Thu, 18 Jul 2019 11:10:54 +0800</lastBuildDate>
-		<atom:link href="https://zhou-quan.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
-		
-		<item>
-			<title>爬取豆瓣影视 Title </title>
-			<link>https://zhou-quan.github.io/posts/douban/</link>
-			<pubDate>Thu, 18 Jul 2019 11:10:54 +0800</pubDate>
-			
-			<guid>https://zhou-quan.github.io/posts/douban/</guid>
-			<description>最近在做NLP的项目，需要手工生成一些训练样本，于是动手写了一个爬取豆瓣影视数据的脚本，爬取豆瓣电影(华语、欧美、日本等)和电视剧（国产剧、</description>
-			<content type="html"><![CDATA[<p>最近在做NLP的项目，需要手工生成一些训练样本，于是动手写了一个爬取豆瓣影视数据的脚本，爬取豆瓣电影(华语、欧美、日本等)和电视剧（国产剧、美剧、动漫等）名称共计125000条，存储在txt文本中以供后续使用。</p>
-<div class="highlight"><pre class="chroma"><code class="language-Python" data-lang="Python"><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="k">def</span> <span class="nf">get_pages</span><span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">page_num</span><span class="p">):</span>
-    <span class="n">url_base</span> <span class="o">=</span> <span class="s1">&#39;https://movie.douban.com/j/search_subjects?type=</span><span class="si">%s</span><span class="s1">&amp;tag=</span><span class="si">%s</span><span class="s1">&amp;sort=recommend&amp;page_limit=20&amp;page_start=&#39;</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">url_base</span> <span class="o">%</span> <span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">page_num</span><span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
-            <span class="n">jresult</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-            <span class="n">pages</span> <span class="o">=</span> <span class="n">jresult</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;subjects&#39;</span><span class="p">)</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;爬取&#39;</span> <span class="o">+</span> <span class="n">urlbase</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">page_num</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;失败！&#39;</span><span class="p">)</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">pages</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;获取第</span><span class="si">%s</span><span class="s1">页电影列表失败&#39;</span> <span class="o">%</span> <span class="n">page_num</span><span class="p">)</span>
-
-        
-<span class="k">def</span> <span class="nf">save_to_file</span><span class="p">(</span><span class="n">content_list</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span> 
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span><span class="s2">&#34;w&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">content_list</span><span class="p">:</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span> <span class="o">+</span> <span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;write over!&#34;</span><span class="p">)</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="c1"># 豆瓣每项电视剧只有前500部</span>
-    <span class="n">page_nums</span> <span class="o">=</span> <span class="mi">25</span>  
-            
-    <span class="n">url_base</span> <span class="o">=</span> <span class="s1">&#39;https://movie.douban.com/j/search_subjects?type=</span><span class="si">%s</span><span class="s1">&amp;tag=</span><span class="si">%s</span><span class="s1">&amp;sort=recommend&amp;page_limit=20&amp;page_start=&#39;</span>
+  <channel>
+    <title>Posts on An Artificial Idiot</title>
+    <link>https://zhou-quan.github.io/posts/</link>
+    <description>Recent content in Posts on An Artificial Idiot</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Fri, 18 Dec 2020 11:10:54 +0800</lastBuildDate><atom:link href="https://zhou-quan.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>剑指offer题目整理</title>
+      <link>https://zhou-quan.github.io/posts/offer/</link>
+      <pubDate>Fri, 18 Dec 2020 11:10:54 +0800</pubDate>
+      
+      <guid>https://zhou-quan.github.io/posts/offer/</guid>
+      <description>剑指offer题目整理 二维数组中的查找 ​ 在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上 ​ 到</description>
+    </item>
     
-    <span class="n">tv_url_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;美剧&#39;</span><span class="p">,</span> <span class="s1">&#39;英剧&#39;</span><span class="p">,</span> <span class="s1">&#39;韩剧&#39;</span><span class="p">,</span> <span class="s1">&#39;日剧&#39;</span><span class="p">,</span> <span class="s1">&#39;国产剧&#39;</span><span class="p">,</span> <span class="s1">&#39;港剧&#39;</span><span class="p">,</span> <span class="s1">&#39;日本动画&#39;</span><span class="p">,</span> <span class="s1">&#39;综艺&#39;</span><span class="p">,</span> <span class="s1">&#39;纪录片&#39;</span><span class="p">]</span>
-    <span class="n">movie_url_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;热门&#39;</span><span class="p">,</span><span class="s1">&#39;最新&#39;</span><span class="p">,</span> <span class="s1">&#39;经典&#39;</span><span class="p">,</span> <span class="s1">&#39;豆瓣高分&#39;</span><span class="p">,</span> <span class="s1">&#39;冷门佳片&#39;</span><span class="p">,</span> <span class="s1">&#39;华语&#39;</span><span class="p">,</span> <span class="s1">&#39;欧美&#39;</span><span class="p">,</span> <span class="s1">&#39;韩国&#39;</span><span class="p">,</span> <span class="s1">&#39;日本&#39;</span><span class="p">,</span> <span class="s1">&#39;动作&#39;</span><span class="p">,</span> <span class="s1">&#39;喜剧&#39;</span><span class="p">,</span> <span class="s1">&#39;爱情&#39;</span><span class="p">,</span> <span class="s1">&#39;科幻&#39;</span><span class="p">,</span> <span class="s1">&#39;悬疑&#39;</span><span class="p">,</span> <span class="s1">&#39;恐怖&#39;</span><span class="p">,</span> <span class="s1">&#39;治愈&#39;</span><span class="p">]</span>
+    <item>
+      <title>爬取豆瓣影视 Title </title>
+      <link>https://zhou-quan.github.io/posts/douban/</link>
+      <pubDate>Thu, 18 Jul 2019 11:10:54 +0800</pubDate>
+      
+      <guid>https://zhou-quan.github.io/posts/douban/</guid>
+      <description>最近在做NLP的项目，需要手工生成一些训练样本，于是动手写了一个爬取豆瓣影视数据的脚本，爬取豆瓣电影(华语、欧美、日本等)和电视剧（国产剧、</description>
+    </item>
     
-    <span class="k">for</span> <span class="n">cate</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;tv&#39;</span><span class="p">,</span> <span class="s1">&#39;movie&#39;</span><span class="p">]:</span>
-        <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">_url_list&#39;</span><span class="o">%</span><span class="n">cate</span><span class="p">):</span>
-            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;*&#39;</span> <span class="o">*</span> <span class="mi">10</span><span class="p">,</span> <span class="n">cate</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span>
-            <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">page_nums</span><span class="p">):</span>
-                <span class="n">re_list</span> <span class="o">=</span> <span class="n">get_pages</span><span class="p">(</span><span class="n">cate</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">20</span><span class="p">)</span>
-                <span class="n">punc</span> <span class="o">=</span> <span class="s2">&#34;！？｡＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏.():：。· &#34;</span>
-                <span class="n">punctuation</span> <span class="o">=</span> <span class="n">punc</span>
-                <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">re_list</span><span class="p">:</span>
-                    <span class="n">l</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;[</span><span class="si">%s</span><span class="s2">]+&#34;</span> <span class="o">%</span> <span class="n">punctuation</span><span class="p">,</span> <span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="n">l</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">))</span>
-                    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">])</span>
-                <span class="k">print</span><span class="p">((</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mf">100.0</span><span class="o">/</span><span class="n">pages</span><span class="p">,</span><span class="s2">&#34;%&#34;</span><span class="p">)</span>
-            <span class="n">save_to_file</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">_titles/</span><span class="si">%s</span><span class="s1">_</span><span class="si">%s</span><span class="s1">.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">cate</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">page_nums</span> <span class="o">*</span> <span class="mi">20</span><span class="p">)))</span></code></pre></div>]]></content>
-		</item>
-		
-		<item>
-			<title>使用 Google Cloud 搭建 BBR &#43; SS/SSR 服务器</title>
-			<link>https://zhou-quan.github.io/posts/google_ss/</link>
-			<pubDate>Wed, 17 Jul 2019 17:11:04 +0800</pubDate>
-			
-			<guid>https://zhou-quan.github.io/posts/google_ss/</guid>
-			<description>第三方科学上网服务价格昂贵或服务不稳定，故决定自行使用VPS搭建科学上网服务。 Google Cloud对新用户推出优惠活动(需绑定Visa或Master</description>
-			<content type="html"><![CDATA[
-
-<p>第三方科学上网服务价格昂贵或服务不稳定，故决定自行使用VPS搭建科学上网服务。</p>
-
-<p>Google Cloud对新用户推出优惠活动(需绑定Visa或MasterCard信用卡)，赠送300刀，免费用一年。选择香港或台湾地区的服务器，测试下来速度还不错，可以流畅播放Youtube 4K视频，时延也较低，在60ms左右。</p>
-
-<p>下面就来看一下具体的配置步骤。</p>
-
-<p><a href="https://console.cloud.google.com/freetrial/intro">Google Cloud试用地址</a></p>
-
-<h3 id="1-在-computer-engine-中创建-vm-实例">1. 在 Computer Engine 中创建 VM 实例</h3>
-
-<p><img src="/img/google_ss/00.png" alt="VM实例" /></p>
-
-<h3 id="2-在-vpc-网络-外部-ip-地址中添加静态-ip-地址-并绑定到创建的-vm-实例上">2. 在 VPC 网络 - 外部 IP 地址中添加静态 IP 地址，并绑定到创建的 VM 实例上</h3>
-
-<p><img src="/img/google_ss/01.png" alt="静态IP配置" /></p>
-
-<h3 id="3-在-vpc-网络-防火墙规则中创建新的防火墙规则">3. 在 VPC 网络 - 防火墙规则中创建新的防火墙规则</h3>
-
-<p><img src="/img/google_ss/03.png" alt="防火墙配置" /></p>
-
-<h3 id="4-安装-bbr-内核">4. 安装 BBR 内核</h3>
-
-<p>SSH 登陆到创建的 VM 实例，sudo -i 切换到 root 用户。
-执行以下命令进行安装：</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh
-
-chmod +x bbr.sh
-
-./bbr.sh</code></pre></div>
-<p>安装完成后重启 VPS ，SSH 登陆，执行以下指令验证是否成功安装最新内核并开启 TCP BBR 。</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">uname -r
-<span class="c1">#查看内核版本，返回 4.9.0-9-amd64</span>
-
-sysctl net.ipv4.tcp_available_congestion_control
-<span class="c1">#返回 net.ipv4.tcp_available_congestion_control = bbr cubic reno</span>
-
-sysctl net.ipv4.tcp_congestion_control
-<span class="c1">#返回 net.ipv4.tcp_congestion_control = bbr</span>
-
-sysctl net.core.default_qdisc
-<span class="c1">#返回 net.core.default_qdisc = fq</span>
-
-lsmod <span class="p">|</span> grep bbr
-<span class="c1">#返回值有 tcp_bbr 模块即说明bbr已启动。</span></code></pre></div>
-<h3 id="5-安装-ss-ssr">5. 安装 SS/SSR</h3>
-
-<p>使用秋水逸冰提供的一键脚本，脚本代码如下：</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">sudo -i
-
-wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
-
-chmod +x shadowsocks-all.sh
-
-./shadowsocks-all.sh <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="p">|</span> tee shadowsocks-all.log</code></pre></div>
-<p>选择安装 Shadowsocks-R
-按照提示输入端口、密码、加密方式等，完成配置。</p>
-
-<h3 id="6-油管速度测试">6. 油管速度测试</h3>
-
-<p><img src="/img/google_ss/02.png" alt="油管测试" /></p>
-]]></content>
-		</item>
-		
-	</channel>
+  </channel>
 </rss>

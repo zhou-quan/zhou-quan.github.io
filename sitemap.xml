@@ -1,44 +1,40 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
     <loc>https://zhou-quan.github.io/</loc>
-    <lastmod>2019-07-18T11:10:54+08:00</lastmod>
-    <priority>0</priority>
+    <lastmod>2021-01-24T19:22:23+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://zhou-quan.github.io/posts/</loc>
-    <lastmod>2019-07-18T11:10:54+08:00</lastmod>
-    <priority>0</priority>
+    <lastmod>2021-01-24T19:22:23+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://zhou-quan.github.io/tags/</loc>
-    <lastmod>2019-07-18T11:10:54+08:00</lastmod>
-    <priority>0</priority>
+    <lastmod>2021-01-24T19:22:23+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://zhou-quan.github.io/tags/untagged/</loc>
-    <lastmod>2019-07-18T11:10:54+08:00</lastmod>
-    <priority>0</priority>
+    <lastmod>2021-01-24T19:22:23+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zhou-quan.github.io/posts/offer/</loc>
+    <lastmod>2021-01-24T19:22:23+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://zhou-quan.github.io/posts/douban/</loc>
-    <lastmod>2019-07-18T11:10:54+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://zhou-quan.github.io/posts/google_ss/</loc>
-    <lastmod>2019-07-17T17:11:04+08:00</lastmod>
+    <lastmod>2021-01-24T19:22:23+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://zhou-quan.github.io/about-hugo/</loc>
-    <lastmod>2019-07-13T00:00:00+00:00</lastmod>
+    <lastmod>2021-01-24T19:22:23+08:00</lastmod>
   </url>
   
 </urlset>

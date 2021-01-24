@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>An Artificial Idiot</title>
@@ -7,10 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Thu, 18 Jul 2019 11:10:54 +0800</lastBuildDate>
-    
-	<atom:link href="https://zhou-quan.github.io/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Fri, 18 Dec 2020 11:10:54 +0800</lastBuildDate><atom:link href="https://zhou-quan.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>剑指offer题目整理</title>
+      <link>https://zhou-quan.github.io/posts/offer/</link>
+      <pubDate>Fri, 18 Dec 2020 11:10:54 +0800</pubDate>
+      
+      <guid>https://zhou-quan.github.io/posts/offer/</guid>
+      <description>剑指offer题目整理 二维数组中的查找 ​ 在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上 ​ 到</description>
+    </item>
     
     <item>
       <title>爬取豆瓣影视 Title </title>
@@ -19,15 +24,6 @@
       
       <guid>https://zhou-quan.github.io/posts/douban/</guid>
       <description>最近在做NLP的项目，需要手工生成一些训练样本，于是动手写了一个爬取豆瓣影视数据的脚本，爬取豆瓣电影(华语、欧美、日本等)和电视剧（国产剧、</description>
-    </item>
-    
-    <item>
-      <title>使用 Google Cloud 搭建 BBR &#43; SS/SSR 服务器</title>
-      <link>https://zhou-quan.github.io/posts/google_ss/</link>
-      <pubDate>Wed, 17 Jul 2019 17:11:04 +0800</pubDate>
-      
-      <guid>https://zhou-quan.github.io/posts/google_ss/</guid>
-      <description>第三方科学上网服务价格昂贵或服务不稳定，故决定自行使用VPS搭建科学上网服务。 Google Cloud对新用户推出优惠活动(需绑定Visa或Master</description>
     </item>
     
     <item>
